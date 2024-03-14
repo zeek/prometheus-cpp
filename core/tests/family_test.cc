@@ -47,6 +47,20 @@ TEST(FamilyTest, counter_value) {
   EXPECT_EQ(1, collected[0].metric.at(0).counter.value);
 }
 
+TEST(FamilyTest, counter_callback) {
+  Family<Counter> family{"total_requests", "Counts all requests", {}};
+  auto& counter = family.Add({});
+  counter.AddCollectCallback([]() -> ClientMetric {
+    ClientMetric ret;
+    ret.counter.value = 5;
+    return ret;
+  });
+  auto collected = family.Collect();
+  ASSERT_GE(collected.size(), 1U);
+  ASSERT_GE(collected[0].metric.size(), 1U);
+  EXPECT_EQ(5, collected[0].metric.at(0).counter.value);
+}
+
 TEST(FamilyTest, remove) {
   Family<Counter> family{"total_requests", "Counts all requests", {}};
   auto& counter1 = family.Add({{"name", "counter1"}});

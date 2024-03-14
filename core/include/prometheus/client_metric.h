@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -86,5 +87,7 @@ struct PROMETHEUS_CPP_CORE_EXPORT ClientMetric {
 
   std::int64_t timestamp_ms = 0;
 };
+
+using CollectCallbackPtr = std::function<ClientMetric()>;
 
 }  // namespace prometheus

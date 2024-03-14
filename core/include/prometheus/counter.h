@@ -49,8 +49,11 @@ class PROMETHEUS_CPP_CORE_EXPORT Counter {
   /// Collect is called by the Registry when collecting metrics.
   ClientMetric Collect() const;
 
+  void AddCollectCallback(CollectCallbackPtr cb);
+
  private:
   Gauge gauge_{0.0};
+  CollectCallbackPtr collect_callback_ = nullptr;
 };
 
 /// \brief Return a builder to configure and register a Counter metric.

@@ -37,9 +37,15 @@ void Gauge::SetToCurrentTime() {
 double Gauge::Value() const { return value_; }
 
 ClientMetric Gauge::Collect() const {
+  if (collect_callback_ != nullptr) return collect_callback_();
+
   ClientMetric metric;
   metric.gauge.value = Value();
   return metric;
+}
+
+void Gauge::AddCollectCallback(CollectCallbackPtr cb) {
+  collect_callback_ = std::move(cb);
 }
 
 }  // namespace prometheus

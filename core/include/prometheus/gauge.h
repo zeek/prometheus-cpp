@@ -57,9 +57,12 @@ class PROMETHEUS_CPP_CORE_EXPORT Gauge {
   /// Collect is called by the Registry when collecting metrics.
   ClientMetric Collect() const;
 
+  void AddCollectCallback(CollectCallbackPtr cb);
+
  private:
   void Change(double);
   std::atomic<double> value_{0.0};
+  CollectCallbackPtr collect_callback_ = nullptr;
 };
 
 /// \brief Return a builder to configure and register a Gauge metric.
