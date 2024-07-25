@@ -121,6 +121,15 @@ ClientMetric Family<T>::CollectMetric(const Labels& metric_labels,
   return collected;
 }
 
+template <typename T>
+void Family<T>::UpdateViaCallbacks() const {
+  std::lock_guard<std::mutex> lock{mutex_};
+
+  for (auto& m : metrics_) {
+    m.second->UpdateViaCallback();
+  }
+}
+
 template class PROMETHEUS_CPP_CORE_EXPORT Family<Counter>;
 template class PROMETHEUS_CPP_CORE_EXPORT Family<Gauge>;
 template class PROMETHEUS_CPP_CORE_EXPORT Family<Histogram>;

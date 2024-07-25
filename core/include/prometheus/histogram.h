@@ -76,6 +76,8 @@ class PROMETHEUS_CPP_CORE_EXPORT Histogram {
   /// Collect is called by the Registry when collecting metrics.
   ClientMetric Collect() const;
 
+  void UpdateViaCallback() {}
+
  private:
   BucketBoundaries bucket_boundaries_;
   mutable std::mutex mutex_;

@@ -27,4 +27,11 @@ void Counter::AddCollectCallback(CollectCallbackPtr cb) {
   collect_callback_ = std::move(cb);
 }
 
+void Counter::UpdateViaCallback() {
+  if (!collect_callback_) return;
+
+  auto res = collect_callback_();
+  gauge_.Set(res.counter.value);
+}
+
 }  // namespace prometheus

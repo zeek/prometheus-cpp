@@ -94,6 +94,8 @@ class PROMETHEUS_CPP_CORE_EXPORT Registry : public Collectable {
   template <typename T>
   bool Remove(const Family<T>& family);
 
+  void UpdateViaCallbacks() const;
+
  private:
   template <typename T>
   friend class detail::Builder;

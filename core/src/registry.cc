@@ -36,6 +36,14 @@ bool FamilyNameExists(const std::string& name, const T& families,
                              sameName) != std::end(families);
   return exists || FamilyNameExists(name, args...);
 }
+
+template <typename T>
+void UpdateAllCallbacks(const T& families) {
+  for (auto&& collectable : families) {
+    collectable->UpdateViaCallbacks();
+  }
+}
+
 }  // namespace
 
 Registry::Registry(InsertBehavior insert_behavior)
@@ -54,6 +62,16 @@ std::vector<MetricFamily> Registry::Collect() const {
   CollectAll(results, summaries_);
 
   return results;
+}
+
+void Registry::UpdateViaCallbacks() const {
+  std::lock_guard<std::mutex> lock{mutex_};
+
+  UpdateAllCallbacks(counters_);
+  UpdateAllCallbacks(gauges_);
+  UpdateAllCallbacks(histograms_);
+  UpdateAllCallbacks(infos_);
+  UpdateAllCallbacks(summaries_);
 }
 
 template <>

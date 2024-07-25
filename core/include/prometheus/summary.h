@@ -88,6 +88,8 @@ class PROMETHEUS_CPP_CORE_EXPORT Summary {
   /// Collect is called by the Registry when collecting metrics.
   ClientMetric Collect() const;
 
+  void UpdateViaCallback() {}
+
  private:
   Quantiles quantiles_;
   mutable std::mutex mutex_;

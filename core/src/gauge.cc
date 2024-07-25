@@ -48,4 +48,11 @@ void Gauge::AddCollectCallback(CollectCallbackPtr cb) {
   collect_callback_ = std::move(cb);
 }
 
+void Gauge::UpdateViaCallback() {
+  if (!collect_callback_) return;
+
+  auto res = collect_callback_();
+  Set(res.gauge.value);
+}
+
 }  // namespace prometheus

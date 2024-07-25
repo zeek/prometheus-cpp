@@ -50,6 +50,7 @@ class PROMETHEUS_CPP_CORE_EXPORT Counter {
   ClientMetric Collect() const;
 
   void AddCollectCallback(CollectCallbackPtr cb);
+  void UpdateViaCallback();
 
  private:
   Gauge gauge_{0.0};
