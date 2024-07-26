@@ -16,8 +16,6 @@ double Counter::Value() const { return gauge_.Value(); }
 void Counter::Reset() { gauge_.Set(0); }
 
 ClientMetric Counter::Collect() const {
-  if (collect_callback_ != nullptr) return collect_callback_();
-
   ClientMetric metric;
   metric.counter.value = Value();
   return metric;
